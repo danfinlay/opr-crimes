@@ -1,0 +1,89 @@
+
+	<!doctype html>
+	<html>
+
+	<link rel="stylesheet" type="text/css" href="style.css" />
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript">
+if (typeof jQuery == 'undefined')
+{
+    document.write(unescape("%3Cscript src='/scripts/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
+}
+</script>
+
+	<script src="http://www.parsecdn.com/js/parse-1.0.6.min.js"></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCVvpxyJ0sRUbwOEBVLA_HvUq0Kgw0XY9c&sensor=true"></script>
+
+	<script type = "text/javascript" src="checkmail.js"></script>
+	<script type = "text/javascript" src="src.js"></script>
+
+
+
+<head>
+<span style="position:absolute; float:left">
+				Please submit any bugs/feature ideas to the <a href="forum">forum!</a><br>
+				Help us <a href="pr.html">Spread the Word!</a>
+			</span>
+
+ 	<div class="login-zone">
+		<a href="loginregister.html">Log in</a>&nbsp;&nbsp;&nbsp;
+		<a href="loginregister.html">Register</a>
+
+	</div><br><br>
+
+	<center><img src="logo4.gif" style = "margin-top:20px">
+<div id="fb-root"></div>
+<a href='blog' class=menuLink>Blog</a><a href='forum' class=menuLink>Forum</a><a href="pr.html" class=menuLink>Share</a>
+
+</center>
+	<title>Hop Swap</title>
+</head>
+    
+  <body>
+
+	<div>
+
+ 
+		<span class="newButton"><a href="newbeer.html">New Beer</a></span>
+
+		<h3>Find Brews Near: <input type = "text" id = "dropoffLocation"><input type = "button" value = "Find" id = "checkButton"> &nbsp&nbsp&nbsp</h3>
+
+
+	</div>
+
+	   <meta name="viewport" content="initial-scale=8.0, user-scalable=yes"/>
+	    <div id="map_canvas" style="width:100%; height:100%; outline: 2px solid RGB(120,82,55); margin-bottom: 10px"></div>
+
+		<table></table>
+
+</body>
+
+
+	<script>
+  $(document).ready(readyFunction());
+  </script>
+
+  <center><span style="color:#777; font-size:12px">&#169; 2012 <a href="http://danfinlay.com">Dan Finlay</a>  RDWHAHB.</span><form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+">
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+</form>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33107347-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</center>
+  </html>
