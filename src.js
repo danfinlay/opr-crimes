@@ -1,7 +1,6 @@
-var map;
+window.map;
  var lat = -34.397;
  var lon = 150.644;
-beerStyles = ["Light Lager", "Pilsner", "European Amber Lager", "Dark Lager", "Bock", "Light Hybrid Beer", "Amber Hybrid Beer", "English Pale Ale", "Scottish and Irish Ale", "American Ale", "English Brown Ale", "Porter", "Stout", "India Pale Ale (IPA)", "German Wheat and Rye Beer", "Belgian and French Ale","Sour Ale","Belgian Strong Ale","Strong Ale","Fruit Beer", "Spice/Herb/Vegetable Beer", "Smoke-Flavored and Wood-Aged Beer", "Specialty Beer", "Traditional Mead", "Melomel (Fruit Mead)", "Other Mead", "Standard Cider and Perry", "Specialty Cider and Perry", "Wine"];
 
 var myLatlng = new google.maps.LatLng(-34.397,150.644);
  markers = [];
@@ -9,16 +8,15 @@ var myLatlng = new google.maps.LatLng(-34.397,150.644);
 
 function initialize() {
 
-
 	console.log("Initialize called.");
   var myOptions = {
-    center: myLatlng,
-    zoom: 3,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
+    'mapTypeId': google.maps.MapTypeId.ROADMAP,
+    'center': myLatlng,
+    'zoom': 12
+    }
   map = new google.maps.Map(document.getElementById("map_canvas"),
     myOptions);
-  return map;
+  //return map;
 }
 
 function readyFunction(){
@@ -42,7 +40,7 @@ function displaySwapsNear(currentLocation){
   var latLng = new google.maps.LatLng(lat, lon);
 
     var myOptions = {
-    zoom: 5,
+    zoom: 15,
     center: myLatlng,
     mapTypeId: google.maps.MapTypeId.ROADMAP,
   }
@@ -117,27 +115,26 @@ function tryToSetMap(){
 
   initialize();
 
-if(google.loader.ClientLocation)
-{
-    visitor_lat = google.loader.ClientLocation.latitude;
-    visitor_lon = google.loader.ClientLocation.longitude;
-    visitor_city = google.loader.ClientLocation.address.city;
-    visitor_region = google.loader.ClientLocation.address.region;
-    visitor_country = google.loader.ClientLocation.address.country;
-    visitor_countrycode = google.loader.ClientLocation.address.country_code;
-    myLatlng = new google.maps.LatLng(visitor_lat, visitor_lon);
-
-var myOptions = {
-          center: myLatlng,
-          zoom: 12,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-
-displaySwapsNear(myLatlng);
-
-
+  if(google.loader.ClientLocation)
+  {
+      visitor_lat = google.loader.ClientLocation.latitude;
+      visitor_lon = google.loader.ClientLocation.longitude;
+      visitor_city = google.loader.ClientLocation.address.city;
+      visitor_region = google.loader.ClientLocation.address.region;
+      visitor_country = google.loader.ClientLocation.address.country;
+      visitor_countrycode = google.loader.ClientLocation.address.country_code;
+      myLatlng = new google.maps.LatLng(visitor_lat, visitor_lon);
+    var myOptions = {
+      'mapTypeId': google.maps.MapTypeId.ROADMAP,
+      'center': myLatlng,
+      'zoom': 12
+    }
+    window.map.setOptions(myOptions)
+    //displaySwapsNear(myLatlng);
+  }
 }
-}
+
+tryToSetMap()
 }
 
 
