@@ -8,7 +8,7 @@ var myLatlng = new google.maps.LatLng(-34.397,150.644);
 
 function initialize() {
 
-	console.log("Initialize called.");
+	//console.log("Initialize called.");
   var myOptions = {
     'mapTypeId': google.maps.MapTypeId.ROADMAP,
     'center': myLatlng,
@@ -24,7 +24,7 @@ console.log("ReadyFunction called.");
 
   for(var i=0; i<facilities.length; i++){
     var facility = facilities[i]
-    console.log("facility: "+JSON.stringify(facility))
+    //console.log("facility: "+JSON.stringify(facility))
     $('select#facilities').append('<option value="'+i+'">'+facility.name.substring(0,25)+'</option>')
   }
 
@@ -33,7 +33,12 @@ $('select#facilities').change(function(){
   var facility = facilities[$('select#facilities').val()]
   //console.log("Facility: "+JSON.stringify(facility))
   var latlng = facility.latlng
-  var myLatlng = new google.maps.LatLng(latlng[0], latlng[1]);
+  goToDanLng(latlng)
+ // displayNear(myLatlng);
+})
+
+function goToDanLng(danLng){
+    var myLatlng = new google.maps.LatLng(danLng[0], danLng[1]);
   var myOptions = {
     zoom: 15,
     center: myLatlng,
@@ -46,8 +51,9 @@ $('select#facilities').change(function(){
         title: "crime"
       });
       marker.setMap(map);
- // displayNear(myLatlng);
-})
+
+  displayCrimes(map)
+}
 
 var visitor_lat;
 var visitor_lon;
@@ -63,16 +69,13 @@ function displayNear(currentLocation){
   lat = currentLocation.lat();
   lon = currentLocation.lng();
   var latLng = new google.maps.LatLng(lat, lon);
-
-    var myOptions = {
+  var myOptions = {
     zoom: 15,
     center: myLatlng,
     mapTypeId: google.maps.MapTypeId.ROADMAP,
   }
 
   var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-
-    
      //What to do for each point:
       var latlng = new google.maps.LatLng(lat, lon);
 
@@ -160,7 +163,26 @@ function tryToSetMap(){
     //displayNear(myLatlng);
   }
 }
+
+
 centerMapOnAddress("Oakland, CA")
+displayCrimes()
+
+
 }
 
+function displayCrimes(onMap){
+  crimes.forEach(function(crime){
+    console.log(JSON.stringify(crime,null,'\t'))
+    var lat = parseFloat(crime.location_1.latitude.slice(0,-1))
+    var lng = parseFloat(crime.location_1.longitude.slice(0,-1))
 
+    var latlng = new google.maps.LatLng(lat, lng);
+
+      var marker = new google.maps.Marker({
+        position: latlng,
+        title: "crime"
+      });
+      marker.setMap(onMap);
+  })
+}
