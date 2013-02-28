@@ -46,13 +46,13 @@ function goToDanLng(danLng){
   }
   var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
-      var marker = new google.maps.Marker({
-        position: myLatlng,
-        title: "crime"
-      });
-      marker.setMap(map);
-
-  displayCrimes(map)
+      // var marker = new google.maps.Marker({
+      //   position: myLatlng,
+      //   title: "crime"
+      // });
+      // marker.setMap(map);
+      displayParks(map)
+     displayCrimes(map)
 }
 
 var visitor_lat;
@@ -88,7 +88,6 @@ function displayNear(currentLocation){
 
       displayParks(map)
       displayCrimes(map)
-
 }
 
 
