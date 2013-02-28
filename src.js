@@ -79,11 +79,16 @@ function displayNear(currentLocation){
      //What to do for each point:
       var latlng = new google.maps.LatLng(lat, lon);
 
-      var marker = new google.maps.Marker({
-        position: latlng,
-        title: "crime"
-      });
-      marker.setMap(map);
+      // var marker = new google.maps.Marker({
+      //   position: latlng,
+      //   title: "Park",
+      //   icon:'opricon.png'
+      // });
+      // marker.setMap(map);
+
+      displayParks(map)
+      displayCrimes(map)
+
 }
 
 
@@ -171,6 +176,20 @@ displayCrimes()
 
 }
 
+function displayParks(onMap){
+   facilities.forEach(function(facility){
+
+    var myLatlng = new google.maps.LatLng(facility.latlng[0], facility.latlng[1]);
+
+      var marker = new google.maps.Marker({
+        position: myLatlng,
+        title: facility.name,
+        icon:'opricon.png'
+      });
+      marker.setMap(onMap);
+  })
+}
+
 function displayCrimes(onMap){
   crimes.forEach(function(crime){
     console.log(JSON.stringify(crime,null,'\t'))
@@ -181,7 +200,7 @@ function displayCrimes(onMap){
 
       var marker = new google.maps.Marker({
         position: latlng,
-        title: "crime"
+        title: crime.description
       });
       marker.setMap(onMap);
   })
