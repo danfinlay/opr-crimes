@@ -56,14 +56,6 @@ function displaySwapsNear(currentLocation){
         title: "crime"
       });
       marker.setMap(map);
-
-/**
-      var host = placesObjects[i].get("host");
-      var hostName = host.get("username");
-      var hostId = host.id;
-      var hostCell = "<a href = 'user/?id="+hostId+"'>"+hostName+"</a>";
-      **/
-
 }
 
 
@@ -111,6 +103,19 @@ function centerMapOnAddress(address){
     });
 }
 
+function latlngForAddress(address){
+
+   geocoder = new google.maps.Geocoder();
+    geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        return results[0].geometry.location
+        //saveNewUserLocation(geoPoint);
+      } else {
+        return "err"
+      }
+    });
+}
+
 function tryToSetMap(){
 
   initialize();
@@ -133,8 +138,7 @@ function tryToSetMap(){
     //displaySwapsNear(myLatlng);
   }
 }
-
-tryToSetMap()
+centerMapOnAddress("Oakland, CA")
 }
 
 
