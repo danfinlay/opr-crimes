@@ -1,47 +1,48 @@
 
-	<!doctype html>
-	<html>
-
-	<link rel="stylesheet" type="text/css" href="style.css" />
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script type="text/javascript">
-if (typeof jQuery == 'undefined')
-{
-    document.write(unescape("%3Cscript src='/scripts/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
-}
-</script>
-
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCVvpxyJ0sRUbwOEBVLA_HvUq0Kgw0XY9c&sensor=true"></script>
-
-<script type = "text/javascript" src="src.js"></script>
-
-
+<!doctype html>
+<html>
 
 <head>
 	<title>OPR Crime</title>
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript">
+	if (typeof jQuery == 'undefined')
+	{
+	    document.write(unescape("%3Cscript src='/scripts/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
+	}
+	</script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCVvpxyJ0sRUbwOEBVLA_HvUq0Kgw0XY9c&sensor=true"></script>
+	<script type = "text/javascript" src="src.js"></script>
+	<script src='facilities.js'></script>
 </head>
-    <h1 style="margin:20px">Crimes near Oakland Parks</h1>
-    <div style="padding:0px 0px 15px 15px;">
-    	<form>
-		    <input id="where" placeholder="Type Address Here">
-		    <input type='submit' id='searchArea' text="search"><br>
+
+<body>
+	<h1 style="margin:20px">
+		<img src="opr.png" style="height:90px;position:absolute;right:10px">
+		Crimes near OPR Facilities
+	</h1>
+	<div style="padding:0px 0px 15px 15px;">
+		<form>
+			<select id="facilities">
+				<option value="default">Select Facility</option>
+			</select>
+			or
+		    <input id="where" placeholder="Type An Address">
+		    <input type='submit' id='searchArea' text="search">
+
+
 		</form>
 	</div>
-  <body>
-
-	   <meta name="viewport" content="initial-scale=8.0, user-scalable=yes"/>
-	    <div id="map_canvas" style="width:100%; height:100%; outline: 2px solid RGB(120,82,55); margin-bottom: 10px"></div>
-
-
+	<meta name="viewport" content="initial-scale=8.0, user-scalable=yes"/>
+	<div id="map_canvas" style="width:100%; height:100%; outline: 2px solid RGB(120,82,55); margin-bottom: 10px">
+	</div>
 </body>
 
+<script>
+	$(document).ready(readyFunction());
+</script>
 
-	<script>
-  $(document).ready(readyFunction());
-  </script>
-
- 
 </center>
-  </html>
+</html>

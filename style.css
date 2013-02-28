@@ -1,5 +1,11 @@
 body{
+  background-color:rgb(196,213,158);
 	font-family:Trebuchet, Arial, Helvetica, Sans-Serif;
+}
+h1{
+
+  color:rgb(243,183,73);
+  text-shadow:1px 1px 3px rgba(0,0,0,1);
 }
 html {
 top:20%;

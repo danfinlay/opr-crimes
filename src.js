@@ -20,20 +20,28 @@ function initialize() {
 }
 
 function readyFunction(){
-
-
 console.log("ReadyFunction called.");
+
+  for(var i=0; i<facilities.length; i++){
+    var facility = facilities[i]
+    console.log("facility: "+JSON.stringify(facility))
+    $('select#facilities').append('<option value="'+i+'">'+facility.name.substring(0,25)+'</option>')
+  }
+
+$('select#facilities').change(function(){
+  
+})
 
 var visitor_lat;
 var visitor_lon;
 
 
-myLatlng = new google.maps.LatLng(37.77, -122.419);
+myLatlng = new google.maps.LatLng(37.8035, -122.2572);
 displaySwapsNear(myLatlng);
 
 
 function displaySwapsNear(currentLocation){
-  console.log("Displaying swaps near...");
+  console.log("Displaying near...");
 
   lat = currentLocation.lat();
   lon = currentLocation.lng();
@@ -94,8 +102,6 @@ function centerMapOnAddress(address){
         myLatlng = results[0].geometry.location;
 
         displaySwapsNear(myLatlng);
-
-        
         //saveNewUserLocation(geoPoint);
       } else {
         alert("Location not found because: " + status);
@@ -104,7 +110,6 @@ function centerMapOnAddress(address){
 }
 
 function latlngForAddress(address){
-
    geocoder = new google.maps.Geocoder();
     geocoder.geocode( { 'address': address}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
