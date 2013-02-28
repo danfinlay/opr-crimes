@@ -171,6 +171,7 @@ function tryToSetMap(){
 
 centerMapOnAddress("Oakland, CA")
 displayCrimes()
+displayParks()
 
 
 }
@@ -191,7 +192,7 @@ function displayParks(onMap){
 
 function displayCrimes(onMap){
   crimes.forEach(function(crime){
-    console.log(JSON.stringify(crime,null,'\t'))
+    //console.log(JSON.stringify(crime,null,'\t'))
     var lat = parseFloat(crime.location_1.latitude.slice(0,-1))
     var lng = parseFloat(crime.location_1.longitude.slice(0,-1))
 
