@@ -1,13 +1,15 @@
 body{
 	font-family:Trebuchet, Arial, Helvetica, Sans-Serif;
 }
-html { 
-height: 100% 
+html {
+top:20%;
+height: 80%;
+width:100%;
 }
 body { 
-	height: 300px; 
-	margin: 0; 
-	padding: 10px 
+	height: 100%; 
+  margin:0px;
+  padding:0px;
 }
 a:link{
   color:#228822;

@@ -25,67 +25,13 @@ function readyFunction(){
 
 
 console.log("ReadyFunction called.");
-Parse.initialize("WEILBDv4Rm48Fd5Yc1H13ApCArM7EJmiQrcmmZrY", "oS3nPSJ5kcfw8tLKnYkAAAR5GtUsK85XmzIyo7aV");
 
-
-  (function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=317251165036208";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-
-  window.fbAsyncInit = function() {
-    Parse.FacebookUtils.init({
-      appId      : '317251165036208', // App ID
-      channelUrl : 'channel.html', // Channel File
-      status     : true, // check login status
-      cookie     : true, // enable cookies to allow the server to access the session
-      xfbml      : true  // parse XFBML
-    });
-};
-
-  // Load the SDK Asynchronously
-  (function(d){
-     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement('script'); js.id = id; js.async = true;
-     js.src = "//connect.facebook.net/en_US/all.js";
-     ref.parentNode.insertBefore(js, ref);
-   }(document));
-
-
-
-
-
-  
 var visitor_lat;
 var visitor_lon;
 
-var currentUser = Parse.User.current();
-if (currentUser) {
-    // do stuff with the user
-    console.log("User identified. "+ currentUser.get("username"));
-    $('div.login-zone').html('Welcome, <a id = "myAccount" href="myaccount.html">'+currentUser.get("username")+'</a>!&nbsp;&nbsp;&nbsp;<a id = "logoutButton" href="logout.html">Log out</a>');
-    checkMail(Parse, currentUser);
-    var location = currentUser.get("location");
-    if (location) {
-      lat = location.latitude;
-      lon = location.longitude;
-      console.log("Initial location found: Lat="+lat+" Lon="+lon);
-      myLatlng = new google.maps.LatLng(lat, lon);
-      displaySwapsNear(myLatlng);
-    } else {
-      console.log("User location not found.");
-      tryToSetMap();
-    }
-  }else{
-    myLatlng = new google.maps.LatLng(37.77, -122.419);
-    displaySwapsNear(myLatlng);
-}
 
-
+myLatlng = new google.maps.LatLng(37.77, -122.419);
+displaySwapsNear(myLatlng);
 
 
 function displaySwapsNear(currentLocation){
@@ -94,17 +40,6 @@ function displaySwapsNear(currentLocation){
   lat = currentLocation.lat();
   lon = currentLocation.lng();
   var latLng = new google.maps.LatLng(lat, lon);
-  var point = new Parse.GeoPoint({latitude:lat, longitude:lon});
-
-  var Beer = Parse.Object.extend("Beer");
-  var query = new Parse.Query(Beer);
-  query.near("location", point);
-  query.limit(20);
-  query.include("creator");
-  query.equalTo("available", true);
-  query.find({
-    success: function(beers){
-      console.log("Finding swaps a success!.  Found "+beers.length);
 
     var myOptions = {
     zoom: 5,
@@ -114,26 +49,15 @@ function displaySwapsNear(currentLocation){
 
   var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
-      $('table').text('');
-
-      $('table').append('<tr><th>Beer Name</th><th>Style</th><th>Creator</th><th>Description</th></tr>');
-    for (var i = 0; i<beers.length; i++) {
-      console.log("Enumerating beer #" + i);
-      var swap = beers[i];
-      var location = swap.get("location");
-      var parsedLocation = location.toJSON();
-      lat = parsedLocation["latitude"];
-      lon = parsedLocation["longitude"];
-      console.log("lat and lon:" + lat+ "  "+lon);
+    
+     //What to do for each point:
       var latlng = new google.maps.LatLng(lat, lon);
-
 
       var marker = new google.maps.Marker({
         position: latlng,
-        title: swap.get("title")
+        title: "crime"
       });
       marker.setMap(map);
-
 
 /**
       var host = placesObjects[i].get("host");
@@ -141,18 +65,6 @@ function displaySwapsNear(currentLocation){
       var hostId = host.id;
       var hostCell = "<a href = 'user/?id="+hostId+"'>"+hostName+"</a>";
       **/
-
-      var beer = beers[i];
-      $('table').append('<tr><td><a href=beer.html?id='+beer.id+'>'+beer.get("name")+"</a></td><td>"+beerStyles[beer.get("style")-1]+"</td><td><a href=user.html?id="+beer.get("creator").id+">"+beer.get("creator").get("username")+"</a></td><td>"+beer.get("description").substr(0, 250)+"</td></tr>");
-      
-
-    }
-  },
-  error: function(placesObjects, error){
-    console.log("Finding swaps gave error: "+error.message);
-    initialize();
-  }
-});
 
 }
 
@@ -175,8 +87,13 @@ function saveNewUserLocation(geoPoint){
   });
 }
 
-function centerMapOnAddress(address){
+$('#searchArea').click(function(ev){
+  ev.preventDefault()
+  var address = $('#where').val()
+  centerMapOnAddress(address)
+})
 
+function centerMapOnAddress(address){
   console.log("New geocoder requesting...");
    geocoder = new google.maps.Geocoder();
     geocoder.geocode( { 'address': address}, function(results, status) {
@@ -188,27 +105,13 @@ function centerMapOnAddress(address){
 
         displaySwapsNear(myLatlng);
 
-        var geoPoint = new Parse.GeoPoint({latitude:lat, longitude:lon});
+        
         //saveNewUserLocation(geoPoint);
       } else {
         alert("Location not found because: " + status);
       }
     });
 }
-
-
-$('#logoutButton').live("click", function(event){
-  event.preventDefault();
-console.log("Log out clicked");
-Parse.User.logOut();
-window.location.href = "index.html";
-});
-$('#myAccount').click(function(event){
-console.log("My account clicked.");
-});
-
-
-
 
 function tryToSetMap(){
 
@@ -223,17 +126,16 @@ if(google.loader.ClientLocation)
     visitor_country = google.loader.ClientLocation.address.country;
     visitor_countrycode = google.loader.ClientLocation.address.country_code;
     myLatlng = new google.maps.LatLng(visitor_lat, visitor_lon);
+
 var myOptions = {
           center: myLatlng,
-          zoom: 8,
+          zoom: 12,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 
-var Swap = Parse.Object.extend("Swap");
-
-var currentLocation = new Parse.GeoPoint({latitude: visitor_lat, longitude: visitor_lon});
-var swapQuery = new Parse.Query(Swap);
 displaySwapsNear(myLatlng);
+
+
 }
 }
 }
