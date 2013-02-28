@@ -29,7 +29,24 @@ console.log("ReadyFunction called.");
   }
 
 $('select#facilities').change(function(){
-  
+  //console.log("Selection: "+$('select#facilities').val())
+  var facility = facilities[$('select#facilities').val()]
+  //console.log("Facility: "+JSON.stringify(facility))
+  var latlng = facility.latlng
+  var myLatlng = new google.maps.LatLng(latlng[0], latlng[1]);
+  var myOptions = {
+    zoom: 15,
+    center: myLatlng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+  }
+  var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+      var marker = new google.maps.Marker({
+        position: myLatlng,
+        title: "crime"
+      });
+      marker.setMap(map);
+ // displayNear(myLatlng);
 })
 
 var visitor_lat;
@@ -37,10 +54,10 @@ var visitor_lon;
 
 
 myLatlng = new google.maps.LatLng(37.8035, -122.2572);
-displaySwapsNear(myLatlng);
+displayNear(myLatlng);
 
 
-function displaySwapsNear(currentLocation){
+function displayNear(currentLocation){
   console.log("Displaying near...");
 
   lat = currentLocation.lat();
@@ -101,7 +118,7 @@ function centerMapOnAddress(address){
         console.log("Geocoder success, user requested lat: "+lat+" lon:"+lon);
         myLatlng = results[0].geometry.location;
 
-        displaySwapsNear(myLatlng);
+        displayNear(myLatlng);
         //saveNewUserLocation(geoPoint);
       } else {
         alert("Location not found because: " + status);
@@ -140,7 +157,7 @@ function tryToSetMap(){
       'zoom': 12
     }
     window.map.setOptions(myOptions)
-    //displaySwapsNear(myLatlng);
+    //displayNear(myLatlng);
   }
 }
 centerMapOnAddress("Oakland, CA")
